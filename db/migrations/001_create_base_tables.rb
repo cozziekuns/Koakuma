@@ -25,7 +25,7 @@ Sequel.migration do
     end
 
     alter_table(:players) do
-      add_foreign_key :hanchan_id, :hanchan
+      add_foreign_key :hanchan_id, :hanchan, deferrable: true
     end
 
     create_table(:hands) do
@@ -42,8 +42,12 @@ Sequel.migration do
   end
 
   down do
+    alter_table(:players) do
+      drop_foreign_key :hanchan_id
+    end
+
     drop_table(:hands)
-    drop_table(:players)
     drop_table(:hanchan)
+    drop_table(:players)
   end
 end

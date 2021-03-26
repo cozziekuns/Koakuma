@@ -1,11 +1,12 @@
 # Rakefile
 
+require "sequel"
+
 namespace :db do
-  require "sequel"
 
   namespace :migrate do
     Sequel.extension :migration
-    DB = Sequel.connect(ENV['DATABASE_URL'] || 'postgres://localhost/koakuma_dev')
+    DB = Sequel.connect(ENV['DATABASE_URL'] || 'postgres://localhost/koakuma_test')
 
     desc "Perform migration reset (full erase and migration up)"
     task :reset do

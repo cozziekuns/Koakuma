@@ -8,6 +8,8 @@ git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 
 # gem "rails"
 
+gem "rake"
+
 gem "sinatra", "~> 2.1"
 
 gem "sequel", "~> 5.42"

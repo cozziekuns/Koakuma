@@ -172,7 +172,9 @@ class Hanchan_Parser
 
 end
 
-File.open("01.json", 'r+') { |f|
+filename = ARGV[0]
+
+File.open("#{filename}.json", 'r+') { |f|
   hanchan_list = JSON.parse(File.read(f))["list"]
 
   hanchan_list.each { |hanchan|

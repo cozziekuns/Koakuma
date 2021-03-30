@@ -183,8 +183,14 @@ File.open("#{filename}.json", 'r+') { |f|
   hanchan_list = JSON.parse(File.read(f))["list"]
   hanchan_list = hanchan_list[ARGV[1].to_i...-1] if ARGV[1]
 
+  i = 0
   hanchan_list.each { |hanchan|
+    break if i >= 1000
+
     parser = Hanchan_Parser.new(hanchan["log_url"], hanchan["timestamp"])
     parser.commit
+    sleep(1)
+
+    i += 1
   }
 }

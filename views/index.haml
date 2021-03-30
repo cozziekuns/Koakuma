@@ -1,25 +1,24 @@
-%html
-  %head
-    %title Hello World
-  %body
-    %form{ action: "/list_hanchan", method: "post" }
-      %fieldset
-        %label{ for: "round" } Round:
-        %input{ type: "number", id: "round", name: "round", value: "1" }
-        %br
-        %label{ for: "east_score" } East Player Score:
-        %input{ type: "number", id: "east_score", name: "east_score", value: "25000", step: "100" }
-        %br
-        %label{ for: "south_score" } South Player Score:
-        %input{ type: "number", id: "south_score", name: "south_score", value: "25000", step: "100" }
-        %br
-        %label{ for: "west_score" } West Player Score:
-        %input{ type: "number", id: "west_score", name: "west_score", value: "25000", step: "100" }
-        %br
-        %label{ for: "north_score" } North Player Score:
-        %input{ type: "number", id: "north_score", name: "north_score", value: "25000", step: "100" }
-        %br
-        %label{ for: "error" } Tolerance:
-        %input{ type: "number", id: "error", name: "error", value: "1000", step: "100" }
-        %br
-        %input{ type: "submit", value: "Submit" }
+%form{ action: "/list_hanchan", method: "post" }
+  %fieldset
+    %label{ for: "round" } Round:
+    %input{ type: "number", id: "round", name: "round", value: "1" }
+    %br/
+    %br/
+    %label{ for: "east_score" } East Player Score:
+    %input{ type: "number", id: "east_score", name: "east_score", value: "25000", step: "100" }
+    %br/
+    %label{ for: "south_score" } South Player Score:
+    %input{ type: "number", id: "south_score", name: "south_score", value: "25000", step: "100" }
+    %br/
+    %label{ for: "west_score" } West Player Score:
+    %input{ type: "number", id: "west_score", name: "west_score", value: "25000", step: "100" }
+    %br/
+    %label{ for: "north_score" } North Player Score:
+    %input{ type: "number", id: "north_score", name: "north_score", value: "25000", step: "100" }
+    %br/
+    %br/
+    %label{ for: "error" } Tolerance:
+    %input{ type: "number", id: "error", name: "error", value: "1000", step: "100" }
+    %br/
+    %br/
+    %input{ type: "submit", value: "Submit" }

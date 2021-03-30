@@ -1,39 +1,35 @@
-%html
-  %head
-    %title Hello World
-  %body
-    %h2 Input Data
-    %p
-      Round: #{params[:round]}
-      %br/
-      %br/
-      East Score: #{params[:east_score]}
-      %br/
-      South Score: #{params[:south_score]}
-      %br/
-      West Score: #{params[:west_score]}
-      %br/
-      North Score: #{params[:north_score]}
-      %br/
-      Tolerance: &plusmn;#{params[:error]}
-    %h2 Stats
-    %p
-      Hanchan Count: #{@total_count}
-    %p 
-      East Avg. Placement: #{@avg_placements[0]}
-      %br/
-      South Avg. Placement: #{@avg_placements[1]}
-      %br/
-      West Avg. Placement: #{@avg_placements[2]}
-      %br/
-      North Avg. Placement: #{@avg_placements[3]}
-    %h2 Replays
-    %ol
-    - @results.each do |item|
-      %li
-        #{item[:east_player][:dan]}/#{item[:east_player][:username]} :: #{item[:south_player][:dan]}/#{item[:south_player][:username]} :: #{item[:west_player][:dan]}/#{item[:west_player][:username]} :: #{item[:north_player][:dan]}/#{item[:north_player][:username]} 
-        %br/
-        East: #{item[:east_player][:curr_score]} South: #{item[:south_player][:curr_score]} West: #{item[:west_player][:curr_score]} North: #{item[:north_player][:curr_score]}
-        %br/
-        %a{ href: "#{item[:log_url]}" } #{item[:log_url]}
-      %br/
+%h2 Input Data
+%p
+  Round: #{params[:round]}
+  %br/
+  %br/
+  East Score: #{params[:east_score]}
+  %br/
+  South Score: #{params[:south_score]}
+  %br/
+  West Score: #{params[:west_score]}
+  %br/
+  North Score: #{params[:north_score]}
+  %br/
+  Tolerance: &plusmn;#{params[:error]}
+%h2 Stats
+%p
+  Hanchan Count: #{@total_count}
+%p 
+  East Avg. Placement: #{@avg_placements[0]}
+  %br/
+  South Avg. Placement: #{@avg_placements[1]}
+  %br/
+  West Avg. Placement: #{@avg_placements[2]}
+  %br/
+  North Avg. Placement: #{@avg_placements[3]}
+%h2 Replays
+%ol
+- @results.each do |item|
+  %li
+    #{item[:east_player][:dan]}/#{item[:east_player][:username]} :: #{item[:south_player][:dan]}/#{item[:south_player][:username]} :: #{item[:west_player][:dan]}/#{item[:west_player][:username]} :: #{item[:north_player][:dan]}/#{item[:north_player][:username]} 
+    %br/
+    East: #{item[:east_player][:curr_score]} South: #{item[:south_player][:curr_score]} West: #{item[:west_player][:curr_score]} North: #{item[:north_player][:curr_score]}
+    %br/
+    %a{ href: "#{item[:log_url]}" } #{item[:log_url]}
+  %br/

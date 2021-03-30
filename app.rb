@@ -45,7 +45,7 @@ post '/list_hanchan' do
   ).select_hash_groups(:seat, :placement)
 
   @avg_placements = 0.upto(3).map { |i| 
-    "%0.4f" % ((1.0 * placements[(i + round) % 4].sum + @total_count) / @total_count)
+    "%0.2f" % ((1.0 * placements[(i + round) % 4].sum + @total_count) / @total_count)
   }
 
   # Replace this with the current page

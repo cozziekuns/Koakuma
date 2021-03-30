@@ -35,5 +35,5 @@
         %br/
         East: #{item[:east_player][:curr_score]} South: #{item[:south_player][:curr_score]} West: #{item[:west_player][:curr_score]} North: #{item[:north_player][:curr_score]}
         %br/
-        #{item[:log_url]}
+        %a{ href: "#{item[:log_url]}" } #{item[:log_url]}
       %br/

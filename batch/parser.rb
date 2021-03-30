@@ -176,6 +176,7 @@ filename = ARGV[0]
 
 File.open("#{filename}.json", 'r+') { |f|
   hanchan_list = JSON.parse(File.read(f))["list"]
+  hanchan_list = hanchan_list[ARGV[1].to_i...-1] if ARGV[1]
 
   hanchan_list.each { |hanchan|
     parser = Hanchan_Parser.new(hanchan["log_url"], hanchan["timestamp"])

@@ -17,3 +17,5 @@ gem "sequel", "~> 5.42"
 gem "pg", "~> 1.2"
 
 gem "haml", "~> 5.2"
+
+gem "nokogiri"

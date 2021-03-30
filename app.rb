@@ -9,7 +9,7 @@ DAN_TO_STRING = [
   "天鳳",
 ]
 
-DB = Sequel.connect(ENV['DATABASE_URL'] || 'postgres://localhost/hououdb')
+DB = Sequel.connect(ENV['DATABASE_URL'] || 'postgres://localhost/koakuma_test')
 
 def get_score_range(score, tolerance)
   return (score - tolerance)..(score + tolerance)
@@ -26,7 +26,7 @@ post '/list_hanchan' do
   round = params[:round].to_i - 1
   ordered_scores = 0.upto(3).map { |i| params[score_sym[((i - round) + 4) % 4]].to_i }
   
-  hand_results = DB[:hand_results].where(
+  hands = DB[:hands].where(
     round: round,
     east_player_score: get_score_range(ordered_scores[0], params[:error].to_i),
     south_player_score: get_score_range(ordered_scores[1], params[:error].to_i),
@@ -34,18 +34,18 @@ post '/list_hanchan' do
     north_player_score: get_score_range(ordered_scores[3], params[:error].to_i),
   ).distinct(:hanchan_id)
     
-  hanchan_ids = hand_results.map(:hanchan_id)
+  hanchan_ids = hands.map(:hanchan_id)
 
   return "No Results Found." if hanchan_ids.empty?
 
   @total_count = hanchan_ids.length
 
-  hanchan_players_placements = DB[:hanchan_players].where(
+  placements = DB[:players].where(
     hanchan_id: hanchan_ids
   ).select_hash_groups(:seat, :placement)
 
   @avg_placements = 0.upto(3).map { |i| 
-    "%0.4f" % ((1.0 * hanchan_players_placements[(i + round) % 4].sum + @total_count) / @total_count)
+    "%0.4f" % ((1.0 * placements[(i + round) % 4].sum + @total_count) / @total_count)
   }
 
   # Replace this with the current page
@@ -53,11 +53,11 @@ post '/list_hanchan' do
 
   paginated_hanchan = DB[:hanchan].where(id: paginated_hanchan_ids).as_hash(:id)
 
-  players_by_hanchan = DB[:hanchan_players].where(
+  players_by_hanchan = DB[:players].where(
     hanchan_id: paginated_hanchan_ids
   ).to_hash_groups(:hanchan_id)
 
-  paginated_hand_results = hand_results.where(
+  paginated_hands = hands.where(
     hanchan_id: paginated_hanchan_ids
   ).to_hash_groups(:hanchan_id)
 
@@ -67,8 +67,8 @@ post '/list_hanchan' do
     player_sym = [:east_player, :south_player, :west_player, :north_player]
     
     curr_hanchan = paginated_hanchan[id]
-    curr_hanchan_players = players_by_hanchan[id]
-    curr_hand = paginated_hand_results[id]
+    curr_players = players_by_hanchan[id]
+    curr_hand = paginated_hands[id]
 
     blob = {}
 
@@ -76,7 +76,7 @@ post '/list_hanchan' do
     blob[:timestamp] = curr_hanchan[:time_start]
 
     0.upto(3).each { |i|
-      blob[player_sym[i]] = curr_hanchan_players[i]
+      blob[player_sym[i]] = curr_players[i]
 
       blob[player_sym[i]][:dan] = DAN_TO_STRING[blob[player_sym[i]][:dan] - 16]
       blob[player_sym[i]][:curr_score] = curr_hand[0][(player_sym[(i + round) % 4].to_s + "_score").to_sym]

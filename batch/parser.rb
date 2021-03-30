@@ -56,14 +56,17 @@ class Hanchan_Parser
   def parse_un_node(node)
     return if not node.attributes['dan'] or not node.attributes['rate']
 
+    dan_list = node.attributes['dan'].value.split(',').map { |s| s.to_i }
+    rating_list = node.attributes['rate'].value.split(',').map { |s| s.to_i }
+
     [:east_player, :south_player, :west_player, :north_player].each.with_index { |sym, i|
       @hanchan[sym] ||= {}
 
       @hanchan[sym][:username] = URI.decode_www_form_component(node.attributes["n#{i}"].value)
       @hanchan[sym][:seat] = i
       
-      @hanchan[sym][:dan] = node.attributes['dan'].value.to_i
-      @hanchan[sym][:rating] = node.attributes['rate'].value.to_i
+      @hanchan[sym][:dan] = dan_list[i]
+      @hanchan[sym][:rating] = rating_list[i]
     }
 
     @hanchan[:hands] = []
@@ -160,6 +163,8 @@ class Hanchan_Parser
       DB[:hands].insert(
         hanchan_id: hanchan_id,
         round: hand[:round],
+        homba: hand[:homba],
+        kyoutaku: hand[:kyoutaku],
         east_player_score: hand[:east_player_score],
         south_player_score: hand[:south_player_score],
         west_player_score: hand[:west_player_score],

@@ -16,6 +16,8 @@ def get_score_range(score, tolerance)
 end
 
 get '/' do
+  @hanchan_count = DB[:hanchan].count
+  
   haml :index
 end
 

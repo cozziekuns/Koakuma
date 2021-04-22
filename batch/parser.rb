@@ -189,7 +189,7 @@ File.open("#{filename}.json", 'r+') { |f|
 
     parser = Hanchan_Parser.new(hanchan["log_url"], hanchan["timestamp"])
     parser.commit
-    sleep(1)
+    sleep(0.2)
 
     i += 1
   }

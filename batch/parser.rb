@@ -146,6 +146,8 @@ class Hanchan_Parser
   end
 
   def commit
+    return if @hanchan.nil?
+
     hanchan_id = DB[:hanchan].insert(
       time_start: @hanchan[:time_start],
       tenhou_log: @hanchan[:log_url],

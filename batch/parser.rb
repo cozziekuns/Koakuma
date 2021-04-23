@@ -29,10 +29,13 @@ class Hanchan_Parser
   #---------------------------------------------------------------------------
 
   def initialize(log_url, timestamp)
+    return unless DB[:hanchan].where(tenhou_log: log_url).first.nil?
+
     @hanchan = {
       log_url: log_url,
       time_start: timestamp
     }
+
 
     parse(get_log_body(log_url))
   end
@@ -122,6 +125,8 @@ class Hanchan_Parser
     begin
       retries ||= 0
 
+      puts "Fetching Log Body: #{request_url}"
+
       Net::HTTP.start(uri.host, uri.port, use_ssl: true) { |http|
         return http.request(Net::HTTP::Get.new(uri)).body
       }
@@ -141,8 +146,6 @@ class Hanchan_Parser
   end
 
   def commit
-    return unless DB[:hanchan].where(tenhou_log: @hanchan[:log_url]).first.nil?
-    
     hanchan_id = DB[:hanchan].insert(
       time_start: @hanchan[:time_start],
       tenhou_log: @hanchan[:log_url],

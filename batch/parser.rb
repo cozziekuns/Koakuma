@@ -119,11 +119,25 @@ class Hanchan_Parser
 
     uri = URI(request_url)
 
-    Net::HTTP.start(uri.host, uri.port, use_ssl: true) { |http|
-      return http.request(Net::HTTP::Get.new(uri)).body
-    }
+    begin
+      retries ||= 0
 
-    return response.body
+      Net::HTTP.start(uri.host, uri.port, use_ssl: true) { |http|
+        return http.request(Net::HTTP::Get.new(uri)).body
+      }
+    rescue => e
+      puts "Error during processing: #{$!}"
+
+      retries += 1
+      if (retries += 1) < 3
+        puts "Retrying..."
+        retry
+      end
+
+      puts "Execution failed after 3 retries. Exiting..."
+      puts "Backtrace:\n\t#{e.backtrace.join("\n\t")}"
+      exit
+    end
   end
 
   def commit
